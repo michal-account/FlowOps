@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="FlowOps.Api/FlowOps.Api.csproj" />
+  <Project Path="FlowOps.Application/FlowOps.Application.csproj" />
+  <Project Path="FlowOps.Domain/FlowOps.Domain.csproj" />
+  <Project Path="FlowOps.Infrastructure/FlowOps.Infrastructure.csproj" />
+</Solution>
