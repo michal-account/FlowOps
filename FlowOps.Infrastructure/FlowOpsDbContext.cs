@@ -1,9 +1,10 @@
-﻿using FlowOps.Domain.Entities;
+﻿using FlowOps.Application.Common.Interfaces;
+using FlowOps.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace FlowOps.Infrastructure;
 
-public class FlowOpsDbContext : DbContext
+public class FlowOpsDbContext : DbContext, IFlowOpsDbContext
 {
     public FlowOpsDbContext(DbContextOptions options) : base(options)
     {
