@@ -16,8 +16,4 @@
     <ProjectReference Include="..\FlowOps.Domain\FlowOps.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Incidents\CreateIncident\" />
-  </ItemGroup>
-
 </Project>

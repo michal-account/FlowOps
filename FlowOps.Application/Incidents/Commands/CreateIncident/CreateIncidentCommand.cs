@@ -1,6 +1,5 @@
 ﻿using FlowOps.Domain.Enums;
 using MediatR;
-using System.Runtime.CompilerServices;
 
 namespace FlowOps.Application.Incidents.Commands.CreateIncident;
 

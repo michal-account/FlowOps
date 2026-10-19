@@ -1,7 +1,11 @@
 using FlowOps.Api.Endpoints;
+using FlowOps.Api.Infrastructure.ExceptionHandling;
+using FlowOps.Application.Common.Behaviors;
 using FlowOps.Application.Common.Interfaces;
 using FlowOps.Application.Incidents.Commands.CreateIncident;
 using FlowOps.Infrastructure;
+using FluentValidation;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,14 +20,24 @@ builder.Services.AddScoped<IFlowOpsDbContext>(provider =>
     provider.GetRequiredService<FlowOpsDbContext>());
 
 builder.Services.AddMediatR(cfg =>
-    cfg.RegisterServicesFromAssembly(typeof(CreateIncidentCommand).Assembly));
+{
+    cfg.RegisterServicesFromAssembly(typeof(CreateIncidentCommand).Assembly);
 
+    cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidatorBehavior<,>));
+});
+
+builder.Services.AddValidatorsFromAssembly(typeof(CreateIncidentCommand).Assembly);
+    
 builder.Services.AddOpenApi();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddSignalR()
     .AddStackExchangeRedis(builder.Configuration.GetConnectionString("Redis")!);
+
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+
+builder.Services.AddProblemDetails();
 
 var app = builder.Build();
 
@@ -33,6 +47,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseExceptionHandler();
 
 app.UseHttpsRedirection();
 
